@@ -1,13 +1,38 @@
 [package]
 name = "utopia-queue"
-description = "A Redis queue publisher for Utopia workers."
+description = "A task queue: messages, publishers and consumers on Redis, Redis Cluster and NATS JetStream, and a worker server with hooks, retries and concurrency."
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.88"
 license = "BSD-3-Clause"
 
+[features]
+default = ["cluster", "nats"]
+# Redis Cluster connection.
+cluster = ["redis/cluster-async"]
+# NATS JetStream broker.
+nats = ["dep:async-nats"]
+
 [dependencies]
+async-nats = { version = "0.38", optional = true, default-features = false, features = ["ring", "server_2_10"] }
+bytes = "1"
+futures-util = { version = "0.3", default-features = false, features = ["std", "async-await-macro"] }
 getrandom = "0.3"
+hex = "0.4"
+indexmap = "2"
+php-std = { version = "0.1.0", git = "https://github.com/utopia-rs/php-std" }
 redis = { version = "0.32", default-features = false, features = ["tokio-comp", "aio", "connection-manager", "script"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["raw_value", "preserve_order", "float_roundtrip"] }
+sha1 = "0.10"
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal", "rt"] }
+utopia-dsn = { version = "0.1.0", git = "https://github.com/utopia-rs/dsn" }
+utopia-lock = { version = "0.1.0", git = "https://github.com/utopia-rs/lock" }
+utopia-validators = { version = "0.1.0", git = "https://github.com/utopia-rs/validators" }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "signal", "rt"] }
+
+[package.metadata.utopia]
+php-sync = "809d2819d7da00d8b2f486e3bcb4c98a5265e950"
