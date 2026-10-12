@@ -14,7 +14,7 @@ cluster = ["redis/cluster-async"]
 nats = ["dep:async-nats"]
 
 [dependencies]
-async-nats = { version = "0.38", optional = true, default-features = false, features = ["ring", "server_2_10"] }
+async-nats = { version = "0.50", optional = true, default-features = false, features = ["ring", "server_2_10", "jetstream"] }
 bytes = "1"
 futures-util = { version = "0.3", default-features = false, features = ["std", "async-await-macro"] }
 getrandom = "0.3"
